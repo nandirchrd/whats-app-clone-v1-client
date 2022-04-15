@@ -1,0 +1,21 @@
+import styled from 'styled-components/macro';
+
+export const UserDetails = styled.div``;
+export const Toggle = styled.div``;
+export const Picture = styled.div``;
+export const IsOnline = styled.div``;
+export const Icon = styled.div``;
+export const IsOnlineTitle = styled.div``;
+export const Name = styled.div``;
+export const Status = styled.div``;
+export const Details = styled.div``;
+export const Item = styled.div``;
+export const DetailsTitle = styled.div``;
+export const LabelUsername = styled.div``;
+export const Username = styled.div``;
+export const LabelGender = styled.div``;
+export const Gender = styled.div``;
+export const LabelDateOfBirth = styled.div``;
+export const DateOfBirth = styled.div``;
+export const LabelInterest = styled.div``;
+export const Interest = styled.div``;
