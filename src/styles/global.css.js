@@ -31,6 +31,7 @@ body{
 textarea:focus, input:focus, select:focus{
     outline: none;
 }
+
 `;
 
 export default Global;

@@ -20,6 +20,19 @@ const LandingPage = ({ user, setUser }) => {
 				<RegisterContainer setLogin={setLogin} setUser={setUser} />
 			)}
 			<GetOnStoreContainer />
+			<div
+				style={{
+					fontSize: '0.5em',
+					textAlign: 'center',
+					marginTop: '1em',
+				}}>
+				<p>
+					Design src :{' '}
+					<a href="https://dribbble.com/shots/15425733-What-s-App-Web-Redesign?utm_source=Clipboard_Shot&utm_campaign=albofazl&utm_content=What's%20App%20Web%20Redesign&utm_medium=Social_Share&utm_source=Clipboard_Shot&utm_campaign=albofazl&utm_content=What's%20App%20Web%20Redesign&utm_medium=Social_Share">
+						https://dribbble.com/albofazl
+					</a>
+				</p>
+			</div>
 		</Container>
 	);
 };

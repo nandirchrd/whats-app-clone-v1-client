@@ -1,13 +1,15 @@
 import styled from 'styled-components/macro';
 
-export const ChatLists = styled.div`
+export const ChatLists = styled.div.attrs(() => ({
+	className: 'chatList',
+}))`
 	/* color: white; // netral
 	color: #435a64; // netral
 	color: #25d366; // primary */
 	padding: 0.5em;
 	display: flex;
 	flex-direction: column;
-	border: 1px solid red;
+	/* border: 1px solid red; */
 	flex: 2;
 	min-height: 100vh;
 	min-width: 15em;
@@ -16,7 +18,7 @@ export const Header = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	border: 1px solid red;
+	/* border: 1px solid red; */
 	padding: 0.5em 0;
 `;
 export const Brand = styled.div`
@@ -30,7 +32,7 @@ export const Title = styled.h5`
 	font-size: 0.5em;
 `;
 export const Setting = styled.button`
-	font-size: 1.2em;
+	font-size: 1em;
 	cursor: pointer;
 	border: none;
 	background-color: unset;
@@ -38,7 +40,7 @@ export const Setting = styled.button`
 export const SearchForm = styled.form`
 	position: relative;
 	width: 100%;
-	border: 1px solid red;
+	/* border: 1px solid red; */
 	padding: 0.5em 0;
 	max-height: 200px;
 	overflow-y: hidden;
@@ -69,20 +71,20 @@ export const ListUsers = styled.div`
 	width: 100%;
 	max-height: 150px;
 	overflow-y: auto;
-	border: 1px solid red;
+	box-shadow: inset 0px 0px 2px black;
 `;
 export const ListMessages = styled.div`
 	margin-top: 1.5em;
 	max-height: 80vh;
 	overflow-y: auto;
 	flex: 5;
-	border: 1px solid red;
+	/* border: 1px solid red; */
 `;
 export const Card = styled.div`
 	gap: 0.2em;
 	padding: 1.2em 0;
 	cursor: pointer;
-	border: 1px solid red;
+	/* border: 1px solid red; */
 	display: flex;
 	align-items: center;
 	height: 2em;
@@ -100,7 +102,7 @@ export const Picture = styled.img`
 
 export const MessageContainer = styled.div`
 	flex: 2;
-	border: 1px solid blue;
+	/* border: 1px solid blue; */
 	display: flex;
 	flex-direction: column;
 `;
@@ -116,8 +118,8 @@ export const Username = styled.span`
 export const Time = styled.span`
 	color: #435a64;
 	font-size: 0.5em;
-	border: 1px solid green;
-	flex: 0.2;
+	/* border: 1px solid green; */
+	flex: 0.3;
 `;
 export const NewMessage = styled.div`
 	color: white;

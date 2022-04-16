@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Login } from '../components';
 import { useNavigate } from 'react-router';
 import { loginValidate } from '../utils/validate';
+import host from './../utils/host';
 
 const LoginContainer = ({ setLogin, setUser, ...restProps }) => {
 	const [isLoginError, setLoginError] = useState(false);
@@ -18,7 +19,7 @@ const LoginContainer = ({ setLogin, setUser, ...restProps }) => {
 			return false;
 		}
 		// POST DATA API
-		fetch('http://localhost:8000/auth', {
+		fetch(host('public', '/auth'), {
 			method: 'POST',
 			body: JSON.stringify({ username, password }),
 			headers: {

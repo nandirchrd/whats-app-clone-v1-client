@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import ChatListsContainer from '../containers/chatLists';
 import ConversationContainer from '../containers/conversation';
 import socket from './../utils/socket';
+import host from './../utils/host';
 import { Navigate } from 'react-router';
-const io = socket('http://localhost:8000');
+const io = socket(host('public'));
 const Home = ({ user, ...restProps }) => {
 	const [conversation, setConversation] = useState([]);
 	const [user2, setUser2] = useState();
+
 	if (!user) return <Navigate to='/' />;
 	return (
 		<div className='home'>

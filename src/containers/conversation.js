@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Conversation } from '../components';
+import host from './../utils/host';
 const ConversationContainer = ({ conversation, user2, user1, io }) => {
 	const [message, setMessage] = useState('');
 	const handleSendMessage = (data) => {
 		data.preventDefault();
 		if (!user2) return;
-		fetch('http://localhost:8000/post-message', {
+		fetch(host('public', '/post-message'), {
 			method: 'POST',
 			body: JSON.stringify({
 				user1: user1,
@@ -19,7 +20,12 @@ const ConversationContainer = ({ conversation, user2, user1, io }) => {
 			.then((res) => res.json())
 			.then((res) => {
 				// IO EMIT ID MESSAGE
-				io.emit('new-message', `${res.data.id}`);
+				io.emit(
+					'new-message',
+					`${res.data.id}`,
+					`${res.data.user1}`,
+					`${res.data.user2}`
+				);
 				console.log(res);
 				setMessage('');
 			});
@@ -36,16 +42,20 @@ const ConversationContainer = ({ conversation, user2, user1, io }) => {
 					conversation.map((data) => (
 						<Conversation.Card
 							key={data.id}
-							isUser={data.sender == user1}>
-							<Conversation.Profile isUser={data.sender == user1}>
+							isUser={data.sender === user1}>
+							<Conversation.Profile
+								isUser={data.sender === user1}>
 								<Conversation.Picture />
 								<Conversation.Time>
-									{data.timestamp}
+									{data.sender === user1 ? 'YOU' : user2}
 								</Conversation.Time>
 							</Conversation.Profile>
 							<Conversation.TextMessage
-								isUser={data.sender == user1}>
+								isUser={data.sender === user1}>
 								{data.msg}
+								<Conversation.Time>
+									{data.timestamp}
+								</Conversation.Time>
 							</Conversation.TextMessage>
 						</Conversation.Card>
 					))

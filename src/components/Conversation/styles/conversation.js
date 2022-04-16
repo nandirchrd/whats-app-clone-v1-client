@@ -1,23 +1,31 @@
 import styled from 'styled-components/macro';
 
-export const Conversation = styled.div`
-	@media screen and (max-width: 992px) {
-		display: none;
-	}
+export const Conversation = styled.div.attrs(() => ({
+	className: 'conversation',
+}))`
 	position: relative;
 	flex: 4;
-	border: 5px solid purple;
+	/* border: 5px solid purple; */
 	max-height: 100vh;
 	max-width: 100%;
 	padding: 0.5em;
 	overflow-y: auto;
+	@media screen and (max-width: 768px) {
+		display: none;
+	}
 `;
 export const Message = styled.div`
 	padding: 1em;
 	max-width: 100%;
 	height: 75vh;
-	border: 1px solid green;
+	/* border: 1px solid green; */
 	overflow-y: auto;
+	border-radius: 10px;
+	box-shadow: inset 0px 0px 5px black;
+
+	@media screen and (max-width: 768px) {
+		padding: 0px;
+	}
 	::-webkit-scrollbar {
 		width: 2px;
 	}
@@ -100,8 +108,9 @@ export const WriteMessage = styled.textarea`
 	}
 `;
 export const Send = styled.button`
+	border-radius: 10px;
 	padding: 0.5em 1em;
-	border: 1px solid red;
-	background-color: unset;
+	border: none;
+	background-color: #25d366;
 	cursor: pointer;
 `;

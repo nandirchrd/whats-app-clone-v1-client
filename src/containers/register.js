@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Register } from '../components';
 import { registerValidate } from '../utils/validate';
+import host from './../utils/host';
 
 const RegisterContainer = ({ setLogin, setUser, ...restProps }) => {
 	const [isRegisterError, setRegisterError] = useState(false);
@@ -20,7 +21,7 @@ const RegisterContainer = ({ setLogin, setUser, ...restProps }) => {
 			setErrorMessage(valid.msg);
 			return;
 		}
-		fetch('http://localhost:8000/register', {
+		fetch(host('public', '/register'), {
 			method: 'POST',
 			body: JSON.stringify({
 				username,
