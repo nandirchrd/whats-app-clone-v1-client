@@ -9,7 +9,9 @@ import {
 	SearchForm,
 	SearchInput,
 	SearchSubmit,
+	ListUsers,
 	ListMessages,
+	Username,
 	Card,
 	Picture,
 	MessageContainer,
@@ -43,6 +45,9 @@ ChatLists.SearchInput = ({ ...restProps }) => <SearchInput {...restProps} />;
 ChatLists.SearchSubmit = ({ children, ...restProps }) => (
 	<SearchSubmit {...restProps}>{children}</SearchSubmit>
 );
+ChatLists.ListUsers = ({ children, ...restProps }) => (
+	<ListUsers {...restProps}>{children}</ListUsers>
+);
 ChatLists.ListMessages = ({ children, ...restProps }) => (
 	<ListMessages {...restProps}>{children}</ListMessages>
 );
@@ -57,6 +62,9 @@ ChatLists.MessageContainer = ({ children, ...restProps }) => (
 );
 ChatLists.Name = ({ children, ...restProps }) => (
 	<Name {...restProps}>{children}</Name>
+);
+ChatLists.Username = ({ children, ...restProps }) => (
+	<Username {...restProps}>{children}</Username>
 );
 ChatLists.LastMessage = ({ children, ...restProps }) => (
 	<LastMessage {...restProps}>{children}</LastMessage>

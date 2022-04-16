@@ -40,8 +40,12 @@ export const SearchForm = styled.form`
 	width: 100%;
 	border: 1px solid red;
 	padding: 0.5em 0;
+	max-height: 200px;
+	overflow-y: hidden;
 `;
 export const SearchInput = styled.input`
+	position: relative;
+	top: 0;
 	width: 100%;
 `;
 export const SearchSubmit = styled.button`
@@ -59,6 +63,14 @@ export const SearchSubmit = styled.button`
 	cursor: pointer;
 `;
 //
+export const ListUsers = styled.div`
+	position: relative;
+	margin-top: 0.5em;
+	width: 100%;
+	max-height: 150px;
+	overflow-y: auto;
+	border: 1px solid red;
+`;
 export const ListMessages = styled.div`
 	margin-top: 1.5em;
 	max-height: 80vh;
@@ -96,6 +108,9 @@ export const Name = styled.span`
 	font-size: 0.8em;
 `;
 export const LastMessage = styled.span`
+	font-size: 0.5em;
+`;
+export const Username = styled.span`
 	font-size: 0.5em;
 `;
 export const Time = styled.span`

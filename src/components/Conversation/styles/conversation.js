@@ -50,7 +50,7 @@ export const Picture = styled.img`
 `;
 export const Time = styled.span`
 	margin-top: 0.5em;
-	font-size: 0.6em;
+	font-size: 0.4em;
 	display: block;
 	/* border: 1px solid red; */
 `;
