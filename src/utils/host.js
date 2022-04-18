@@ -1,5 +1,5 @@
 export default function hostServer(command, path) {
-	if (command.toLowerCase() === 'huhuy') {
+	if (command.toLowerCase() === 'public') {
 		if (!path) return 'https://rchrd-whatsapp-clone-v1.herokuapp.com';
 		if (path) return 'https://rchrd-whatsapp-clone-v1.herokuapp.com' + path;
 	}
