@@ -1,4 +1,5 @@
 import styled from 'styled-components/macro';
+import React from 'react';
 
 export const ChatLists = styled.div.attrs(() => ({
 	className: 'chatList',
@@ -92,12 +93,13 @@ export const Card = styled.div`
 		background-color: gray;
 	}
 `;
+
 export const Picture = styled.img`
 	border-radius: 50%;
 	border: none;
 	width: 1.5em;
 	height: 1.5em;
-	background-color: #25d366;
+	/* background-color: #25d366; */
 `;
 
 export const MessageContainer = styled.div`

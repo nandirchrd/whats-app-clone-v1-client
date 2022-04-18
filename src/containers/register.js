@@ -3,25 +3,30 @@ import { Register } from '../components';
 import { registerValidate } from '../utils/validate';
 import host from './../utils/host';
 
-const RegisterContainer = ({ setLogin, setUser, ...restProps }) => {
-	const [isRegisterError, setRegisterError] = useState(false);
-	const [errorMessage, setErrorMessage] = useState('');
-	const handleRegister = (data) => {
+const RegisterContainer = ({ setMode, setUser, ...restProps }) => {
+	const [RegisterError, setRegisterError] = useState({ err: false });
+	const handleRegister = async (data) => {
 		data.preventDefault();
+		// INITIAL VARIABEL
 		const [username, password, firstname, lastname] = [
 			data.target.username.value.toLowerCase(),
 			data.target.password.value,
 			data.target.firstname.value,
 			data.target.lastname.value,
 		];
-		const valid = registerValidate(username, password, firstname, lastname);
 
-		if (valid.err) {
-			setRegisterError(true);
-			setErrorMessage(valid.msg);
-			return;
-		}
-		fetch(host('public', '/register'), {
+		// CHECKING FOR DATA VALIDATION
+		const validation = registerValidate({
+			username,
+			password,
+			firstname,
+			lastname,
+		});
+		// IF VALIDATE ERROR RETURN, AND SET REGISTER ERROR TO TRUE
+		if (validation.err) return setRegisterError(validation);
+
+		// POST DATA TO THE SERVER
+		const res = await fetch(host('public', '/register'), {
 			method: 'POST',
 			body: JSON.stringify({
 				username,
@@ -31,24 +36,25 @@ const RegisterContainer = ({ setLogin, setUser, ...restProps }) => {
 			headers: {
 				'Content-Type': 'application/json',
 			},
-		})
-			.then((res) => res.json())
-			.then((res) => {
-				if (res.err) {
-					setErrorMessage(res.msg);
-					setRegisterError(res.err);
-					return;
-				}
-				setUser(res.data);
-				alert('Register Successfuly');
-			});
+		});
+		// WAITING RESPONSE FROM THE SERVER
+		// CONVERT DATA TO JSON
+		const result = await res.json();
+		// IF RESPONSE ERROR RETURN, SET REGISTER ERROR TO TRUE
+		if (result.err) return setRegisterError(result);
+
+		// IF REGISTER SUCCESS SET USER TO RESPONSE USER DATA FROM THE SERVER
+		setUser(result.data);
+		alert('Register Successfuly');
 	};
 	return (
 		<Register
 			onSubmit={(data) => {
 				handleRegister(data);
 			}}>
-			{isRegisterError && <Register.Error>{errorMessage}</Register.Error>}
+			{RegisterError.err && (
+				<Register.Error>{RegisterError.msg}</Register.Error>
+			)}
 			<Register.FirstName
 				type='text'
 				name='firstname'
@@ -72,7 +78,7 @@ const RegisterContainer = ({ setLogin, setUser, ...restProps }) => {
 			<Register.Submit type='submit'>Register</Register.Submit>
 			<Register.Question
 				onClick={() => {
-					setLogin(true);
+					setMode('LOGIN');
 				}}>
 				Login?
 			</Register.Question>

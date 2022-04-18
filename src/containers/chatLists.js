@@ -2,12 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { ChatLists } from '../components';
 import { AiOutlineSearch as Search } from 'react-icons/ai';
 import host from './../utils/host';
-const ChatListsContainer = ({ user, setConversation, setUser2, io }) => {
+const ChatListsContainer = ({
+	user,
+	activeMessage,
+	setActiveMessage,
+	setMessage,
+	setUser2,
+	io,
+}) => {
 	const [isLoading, setLoading] = useState(false);
 	const [chatList, setChatList] = useState([]);
 	const [srcInp, setSrcInp] = useState('');
 	const [searchList, setsearchList] = useState([]);
-	const [messageData, setmessageData] = useState('');
 
 	const handleSearch = (data) => {
 		data.preventDefault();
@@ -30,10 +36,10 @@ const ChatListsContainer = ({ user, setConversation, setUser2, io }) => {
 		} else {
 			setUser2(data.user2);
 		}
-		console.log(data);
+		console.log('DATA:', data);
 		setSrcInp('');
 		setsearchList([]);
-		setmessageData(data);
+
 		fetch(host('public', '/get-message'), {
 			method: 'POST',
 			body: JSON.stringify(data),
@@ -42,8 +48,17 @@ const ChatListsContainer = ({ user, setConversation, setUser2, io }) => {
 			},
 		})
 			.then((res) => res.json())
-			.then((res) => setConversation(res.length ? res[0].messages : res));
+			.then((res) => {
+				console.log(res);
+				setMessage(res);
+				setActiveMessage(res);
+				// setActiveMessage(res.data);
+			});
 	};
+
+	useEffect(() => {
+		console.log('CHATLIST:', chatList);
+	}, [chatList]);
 	useEffect(() => {
 		function getData() {
 			setLoading(true);
@@ -68,14 +83,13 @@ const ChatListsContainer = ({ user, setConversation, setUser2, io }) => {
 	}, [io, user]);
 
 	useEffect(() => {
-		const idMsg = messageData.id;
-		console.log(idMsg);
+		const idMsg = activeMessage.id;
+		console.log('IDMESSAGE:', idMsg);
 		io.on(`new-message:${idMsg}`, () => {
-			getMessagge(messageData);
+			getMessagge(activeMessage);
 		});
-	}, [messageData, io]);
+	}, [activeMessage, io]);
 
-	console.log(chatList);
 	return (
 		<ChatLists>
 			{/* HEADER */}
@@ -123,7 +137,7 @@ const ChatListsContainer = ({ user, setConversation, setUser2, io }) => {
 											).style.display = 'block';
 										}
 									}}>
-									<ChatLists.Picture />
+									<ChatLists.Picture hello={'dsa'} />
 									<ChatLists.MessageContainer>
 										<ChatLists.Name>
 											{data.details.firstname}{' '}
@@ -172,7 +186,13 @@ const ChatListsContainer = ({ user, setConversation, setUser2, io }) => {
 												).style.display = 'block';
 											}
 										}}>
-										<ChatLists.Picture />
+										<ChatLists.Picture
+											src={
+												data.picture
+													? data.picture
+													: '/assets/images/default_avatar.png'
+											}
+										/>
 										<ChatLists.MessageContainer>
 											<ChatLists.Name>
 												{data.user1 === user.username

@@ -54,9 +54,7 @@ ChatLists.ListMessages = ({ children, ...restProps }) => (
 ChatLists.Card = ({ children, ...restProps }) => (
 	<Card {...restProps}>{children}</Card>
 );
-ChatLists.Picture = ({ children, ...restProps }) => (
-	<Picture {...restProps}>{children}</Picture>
-);
+ChatLists.Picture = ({ ...restProps }) => <Picture {...restProps} />;
 ChatLists.MessageContainer = ({ children, ...restProps }) => (
 	<MessageContainer {...restProps}>{children}</MessageContainer>
 );

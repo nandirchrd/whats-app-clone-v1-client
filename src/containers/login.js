@@ -1,46 +1,39 @@
 import React, { useState } from 'react';
-import { Login } from '../components';
-import { useNavigate } from 'react-router';
 import { loginValidate } from '../utils/validate';
 import host from './../utils/host';
+import { Login } from '../components';
 
-const LoginContainer = ({ setLogin, setUser, ...restProps }) => {
-	const [isLoginError, setLoginError] = useState(false);
-	const [errorMessage, setErrorMessage] = useState('');
-	const navigate = useNavigate();
-	const handleLogin = (data) => {
+const LoginContainer = ({ setMode, setUser, ...restProps }) => {
+	const [LoginError, setLoginError] = useState({ err: false });
+	const handleLogin = async (data) => {
 		data.preventDefault();
 		const username = data.target.username.value.toLowerCase();
 		const password = data.target.password.value;
-		const valid = loginValidate(username, password);
-		if (valid.err) {
-			setLoginError(valid.err);
-			setErrorMessage(valid.msg);
-			return false;
-		}
-		// POST DATA API
-		fetch(host('public', '/auth'), {
+		const validate = loginValidate({ username, password });
+		if (validate.err) return setLoginError(validate);
+
+		// POST DATA TO THE SERVER
+		const res = await fetch(host('public', '/auth'), {
 			method: 'POST',
 			body: JSON.stringify({ username, password }),
 			headers: {
 				'Content-Type': 'application/json',
 			},
-		})
-			.then((res) => res.json())
-			.then((res) => {
-				if (res.err) {
-					setLoginError(true);
-					setErrorMessage(res.msg);
-					return;
-				}
-				setUser(res.data);
-				alert('Login Successful');
-			});
+		});
+		// RESPONSE
+		// GET THE RESULT DATA
+		const result = await res.json();
+		// IF ERROR RETURN ERR, SET LOGIN ERROR TO TRUE
+		if (result.err) return setLoginError(result);
+
+		// IF LOGIN SUCCESS SET USER TO RESPONSE USER DATA FROM THE SERVER
+		setUser(result.data);
+		alert('Login Successful');
 	};
 
 	return (
-		<Login onSubmit={(data) => handleLogin(data)} method='post'>
-			{isLoginError && <Login.Error>{errorMessage}</Login.Error>}
+		<Login onSubmit={(data) => handleLogin(data)}>
+			{LoginError.err && <Login.Error>{LoginError.msg}</Login.Error>}
 			<Login.Username
 				type='text'
 				name='username'
@@ -54,7 +47,7 @@ const LoginContainer = ({ setLogin, setUser, ...restProps }) => {
 			<Login.Submit type='submit'>Login</Login.Submit>
 			<Login.Question
 				onClick={() => {
-					setLogin(false);
+					setMode('REGISTER');
 				}}>
 				Register?
 			</Login.Question>

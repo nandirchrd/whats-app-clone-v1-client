@@ -1,8 +1,14 @@
 import React, { useState } from 'react';
 import { Conversation } from '../components';
 import host from './../utils/host';
-const ConversationContainer = ({ conversation, user2, user1, io }) => {
-	const [message, setMessage] = useState('');
+const ConversationContainer = ({
+	message,
+	setActiveMessage,
+	user1,
+	user2,
+	io,
+}) => {
+	const [inpMessage, setInpMessage] = useState('');
 	const handleSendMessage = (data) => {
 		data.preventDefault();
 		if (!user2) return;
@@ -11,7 +17,7 @@ const ConversationContainer = ({ conversation, user2, user1, io }) => {
 			body: JSON.stringify({
 				user1: user1,
 				user2: user2,
-				messages: { msg: message, sender: user1 },
+				messages: { msg: inpMessage, sender: user1 },
 			}),
 			headers: {
 				'Content-Type': 'application/json',
@@ -20,32 +26,45 @@ const ConversationContainer = ({ conversation, user2, user1, io }) => {
 			.then((res) => res.json())
 			.then((res) => {
 				// IO EMIT ID MESSAGE
-				io.emit(
-					'new-message',
-					`${res.data.id}`,
-					`${res.data.user1}`,
-					`${res.data.user2}`
-				);
+				// USER1 = SENDER
+				// USER2 = RECEIVER
+				io.emit('new-message', {
+					id: res.data.id,
+					sender: res.data.messages[res.data.messages.length - 1]
+						.sender,
+					receiver:
+						res.data.messages[res.data.messages.length - 1]
+							.sender === res.data.user1
+							? res.data.user2
+							: res.data.user1,
+				});
 				console.log(res);
-				setMessage('');
+				setActiveMessage(res.data);
+
+				setInpMessage('');
 			});
 	};
-	console.log(conversation);
 	return (
 		<Conversation>
 			{/* CONVERSATION MESSAGE */}
 
 			<Conversation.Message>
-				{conversation.length === 0 ? (
+				{!message.messages ? (
 					<Conversation.Card>No Messages</Conversation.Card>
 				) : (
-					conversation.map((data) => (
+					message.messages.map((data) => (
 						<Conversation.Card
 							key={data.id}
 							isUser={data.sender === user1}>
 							<Conversation.Profile
 								isUser={data.sender === user1}>
-								<Conversation.Picture />
+								<Conversation.Picture
+									src={
+										message.picture
+											? data.picture
+											: '/assets/images/default_avatar.png'
+									}
+								/>
 								<Conversation.Time>
 									{data.sender === user1 ? 'YOU' : user2}
 								</Conversation.Time>
@@ -70,9 +89,9 @@ const ConversationContainer = ({ conversation, user2, user1, io }) => {
 				<Conversation.WriteMessage
 					name='message'
 					onChange={({ target }) => {
-						setMessage(target.value);
+						setInpMessage(target.value);
 					}}
-					value={message}
+					value={inpMessage}
 					placeholder='Write messages...'
 				/>
 				<Conversation.Send type='submit'>Send</Conversation.Send>
