@@ -7,10 +7,10 @@ import {
 } from 'react-router-dom';
 import Home from './pages/home';
 import LandingPage from './pages/landingPage';
-
 function App() {
 	const [user, setUser] = useState(null);
-	console.log('USER:', user);
+
+	// console.log('USER:', user);
 	return (
 		<Router>
 			<Routes>
@@ -19,7 +19,10 @@ function App() {
 					path='/'
 					element={<LandingPage user={user} setUser={setUser} />}
 				/>
-				<Route path='/home' element={<Home user={user} />} />
+				<Route
+					path='/home'
+					element={<Home user={user} setUser={setUser} />}
+				/>
 				<Route path='*' element={<Navigate to='/' />} />
 			</Routes>
 		</Router>

@@ -37,12 +37,16 @@ export const Setting = styled.button`
 	cursor: pointer;
 	border: none;
 	background-color: unset;
+	&:hover {
+		transform: translateY(-5px);
+		color: tomato;
+	}
 `;
 export const SearchForm = styled.form`
+	margin-top: 0.2em;
 	position: relative;
 	width: 100%;
 	/* border: 1px solid red; */
-	padding: 0.5em 0;
 	max-height: 200px;
 	overflow-y: hidden;
 `;
@@ -62,20 +66,21 @@ export const SearchSubmit = styled.button`
 	align-items: center;
 	position: absolute;
 	right: 0;
-	top: 0.5em;
+	top: 0;
 	cursor: pointer;
 `;
 //
 export const ListUsers = styled.div`
+	/* border: 1px solid red; */
 	position: relative;
-	margin-top: 0.5em;
+	margin-top: 0.2em;
 	width: 100%;
 	max-height: 150px;
 	overflow-y: auto;
 	box-shadow: inset 0px 0px 2px black;
 `;
 export const ListMessages = styled.div`
-	margin-top: 1.5em;
+	margin-top: 0.5em;
 	max-height: 80vh;
 	overflow-y: auto;
 	flex: 5;

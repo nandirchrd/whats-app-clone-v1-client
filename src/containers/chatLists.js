@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ChatLists } from '../components';
-import { AiOutlineSearch as Search } from 'react-icons/ai';
+import { AiOutlineSearch as Search, AiOutlinePoweroff } from 'react-icons/ai';
 import host from './../utils/host';
 const ChatListsContainer = ({
 	user,
@@ -9,6 +9,8 @@ const ChatListsContainer = ({
 	setMessage,
 	setUser2,
 	io,
+	onLogOut,
+	...restProps
 }) => {
 	const [isLoading, setLoading] = useState(false);
 	const [chatList, setChatList] = useState([]);
@@ -36,7 +38,7 @@ const ChatListsContainer = ({
 		} else {
 			setUser2(data.user2);
 		}
-		console.log('DATA:', data);
+		// console.log('DATA:', data);
 		setSrcInp('');
 		setsearchList([]);
 
@@ -49,7 +51,7 @@ const ChatListsContainer = ({
 		})
 			.then((res) => res.json())
 			.then((res) => {
-				console.log(res);
+				// console.log(res);
 				setMessage(res);
 				setActiveMessage(res);
 				// setActiveMessage(res.data);
@@ -57,7 +59,7 @@ const ChatListsContainer = ({
 	};
 
 	useEffect(() => {
-		console.log('CHATLIST:', chatList);
+		// console.log('CHATLIST:', chatList);
 	}, [chatList]);
 	useEffect(() => {
 		function getData() {
@@ -84,7 +86,7 @@ const ChatListsContainer = ({
 
 	useEffect(() => {
 		const idMsg = activeMessage.id;
-		console.log('IDMESSAGE:', idMsg);
+		// console.log('IDMESSAGE:', idMsg);
 		io.on(`new-message:${idMsg}`, () => {
 			getMessagge(activeMessage);
 		});
@@ -98,7 +100,9 @@ const ChatListsContainer = ({
 					<ChatLists.Logo src='assets/images/WhatsApp_icon.png' />
 					<ChatLists.Title>WhatsApp Clone</ChatLists.Title>
 				</ChatLists.Brand>
-				<ChatLists.Setting>{user.username}</ChatLists.Setting>
+				<ChatLists.Setting onClick={onLogOut}>
+					<AiOutlinePoweroff />
+				</ChatLists.Setting>
 			</ChatLists.Header>
 			{/* HEADER */}
 
@@ -137,7 +141,13 @@ const ChatListsContainer = ({
 											).style.display = 'block';
 										}
 									}}>
-									<ChatLists.Picture hello={'dsa'} />
+									<ChatLists.Picture
+										src={
+											data.picture
+												? data.picture
+												: '/assets/images/default_avatar.png'
+										}
+									/>
 									<ChatLists.MessageContainer>
 										<ChatLists.Name>
 											{data.details.firstname}{' '}
@@ -159,7 +169,7 @@ const ChatListsContainer = ({
 
 			<ChatLists.ListMessages>
 				{isLoading ? (
-					<div>Loading</div>
+					<img src='assets/images/loading.gif' />
 				) : (
 					<>
 						{chatList

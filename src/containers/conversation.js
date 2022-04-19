@@ -38,7 +38,7 @@ const ConversationContainer = ({
 							? res.data.user2
 							: res.data.user1,
 				});
-				console.log(res);
+				// console.log(res);
 				setActiveMessage(res.data);
 
 				setInpMessage('');
@@ -48,7 +48,7 @@ const ConversationContainer = ({
 		<Conversation>
 			{/* CONVERSATION MESSAGE */}
 
-			<Conversation.Message>
+			<Conversation.Message className='conversation'>
 				{!message.messages ? (
 					<Conversation.Card>No Messages</Conversation.Card>
 				) : (

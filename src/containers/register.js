@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { Register } from '../components';
 import { registerValidate } from '../utils/validate';
+import { Navigate } from 'react-router-dom';
 import host from './../utils/host';
 
 const RegisterContainer = ({ setMode, setUser, ...restProps }) => {
 	const [RegisterError, setRegisterError] = useState({ err: false });
 	const handleRegister = async (data) => {
 		data.preventDefault();
-		// INITIAL VARIABEL
+		// DESCRUCTURING VARIABEL
 		const [username, password, firstname, lastname] = [
 			data.target.username.value.toLowerCase(),
 			data.target.password.value,
@@ -43,9 +44,13 @@ const RegisterContainer = ({ setMode, setUser, ...restProps }) => {
 		// IF RESPONSE ERROR RETURN, SET REGISTER ERROR TO TRUE
 		if (result.err) return setRegisterError(result);
 
-		// IF REGISTER SUCCESS SET USER TO RESPONSE USER DATA FROM THE SERVER
+		// IF REGISTER SUCCESS SET USER FROM RESPONSE USER DATA FROM THE SERVER
 		setUser(result.data);
+		// SET DATA USER AND PASSWORD IN LOCAL STORAGE
+		localStorage.setItem('user', `${username}`);
+		localStorage.setItem('password', `${password}`);
 		alert('Register Successfuly');
+		return <Navigate to='/home' replace={true} />;
 	};
 	return (
 		<Register

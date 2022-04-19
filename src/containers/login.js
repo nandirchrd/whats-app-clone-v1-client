@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { loginValidate } from '../utils/validate';
 import host from './../utils/host';
 import { Login } from '../components';
+import { Navigate } from 'react-router-dom';
 
 const LoginContainer = ({ setMode, setUser, ...restProps }) => {
 	const [LoginError, setLoginError] = useState({ err: false });
@@ -26,9 +27,13 @@ const LoginContainer = ({ setMode, setUser, ...restProps }) => {
 		// IF ERROR RETURN ERR, SET LOGIN ERROR TO TRUE
 		if (result.err) return setLoginError(result);
 
-		// IF LOGIN SUCCESS SET USER TO RESPONSE USER DATA FROM THE SERVER
+		// IF LOGIN SUCCESS SET USER FROM RESPONSE USER DATA FROM THE SERVER
 		setUser(result.data);
+		// SET DATA USER AND PASSWORD IN LOCAL STORAGE
+		localStorage.setItem('user', `${username}`);
+		localStorage.setItem('password', `${password}`);
 		alert('Login Successful');
+		return <Navigate to='/home' replace={true} />;
 	};
 
 	return (
